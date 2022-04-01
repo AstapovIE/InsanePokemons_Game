@@ -9,11 +9,11 @@ pygame.mixer.music.set_volume(0.17)
 setting1 = Settings('w', 's', 'a', 'd', 'space', 'q')
 setting2 = Settings('up', 'down', 'left', 'right', 'l', 'o')
 
-display_width = 1364
-display_height = 683
+display_width = 1400
+display_height = 650
 display = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption('InsanePokemons')
-display_image = pygame.image.load('images/fon.png').convert()
+display_image = pygame.image.load('images/background.jpg').convert()
 
 players_images = ['tank1.png', 'tank2.png']
 player_surf = [pygame.image.load('images/' + i).convert_alpha() for i in players_images]
@@ -31,7 +31,7 @@ FPS = pygame.time.Clock()
 
 def run_game():
     game = True
-    pygame.mixer.music.play(-1)
+    #pygame.mixer.music.play(-1)
 
     while game:
         for event in pygame.event.get():

@@ -69,7 +69,7 @@ class Player(Object, IDamage):
     def update(self, width, height):
         keys = pygame.key.get_pressed()
         self.attack(self.setting.hit)
-        self.use_spell1(1364, 683)
+        self.use_spell1(1400, 650)
         if keys[self.setting.up]:
             self.rect.y -= self.speed
             if pygame.sprite.spritecollideany(self, self.another_objects):
@@ -98,21 +98,3 @@ class Player(Object, IDamage):
             if self.rect.x > width - self.rect.width:
                 self.rect.x = width - self.rect.width
 
-
-'''
-        if keys[setting.up]:
-            self.rect.y -= self.speed
-            if self.rect.y < 0:
-                self.rect.y = 0
-        if keys[setting.down]:
-            self.rect.y += self.speed
-            if self.rect.y > height - self.rect.height:
-                self.rect.y = height - self.rect.height
-        if keys[setting.left]:
-            self.rect.x -= self.speed
-            if self.rect.x < 0:
-                self.rect.x = 0
-        if keys[setting.right]:
-            self.rect.x += self.speed
-            if self.rect.x > width - self.rect.width:
-                self.rect.x = width - self.rect.width'''

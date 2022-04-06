@@ -8,8 +8,7 @@ class IDamage:
     def __init__(self, damage):
         self.damage = damage
 
-    def attack(self, key):
-        keys = pygame.key.get_pressed()
-        if keys[key]:
+    def attack(self, button, keys):
+        if keys[button]:
             pygame.mixer.Sound.play(hit_sound)
 

@@ -16,6 +16,12 @@ buttons_dict = {'w': pygame.K_w,
                 }
 
 
+def check_distance(x0, y0, x, y, kef):
+    if ((x - x0) ** 2 + (y - y0) ** 2) ** 0.5 < kef:
+        return True
+    return False
+
+
 class Settings():
     def __init__(self, up, down, left, right, hit, spell1):
         self.up = buttons_dict[up]
@@ -33,31 +39,16 @@ class Player(Object, IDamage):
         self.setting = setting
         self.another_objects = another_objects
 
-    def use_spell1(self, display_width, display_height):
-        keys = pygame.key.get_pressed()
-        blink_kef = 50
-        if keys[self.setting.spell1]:
-            if keys[self.setting.up]:
-                self.rect.y -= blink_kef
-                if self.rect.y < 0 or pygame.sprite.spritecollideany(self, self.another_objects):
-                    self.rect.y += blink_kef
-                    return
-            if keys[self.setting.down]:
-                self.rect.y += blink_kef
-                if self.rect.y > display_height or pygame.sprite.spritecollideany(self, self.another_objects):
-                    self.rect.y -= blink_kef
-                    return
-            if keys[self.setting.left]:
-                self.rect.x -= blink_kef
-                if self.rect.x < 0 or pygame.sprite.spritecollideany(self, self.another_objects):
-                    self.rect.x += blink_kef
-                    return
-            if keys[self.setting.right]:
-                self.rect.x += blink_kef
-                if self.rect.x > display_width or pygame.sprite.spritecollideany(self, self.another_objects):
-                    self.rect.x -= blink_kef
-                    return
-
+    def use_spell1(self, display_width, display_height, keys):
+        blink_kef = 350
+        pos = pygame.mouse.get_pos()
+        start = [self.rect.centerx, self.rect.centery]
+        if keys[self.setting.spell1] and check_distance(start[0], start[1], pos[0], pos[1], blink_kef):
+            self.rect.centerx = pos[0]
+            self.rect.centery = pos[1]
+            if pygame.sprite.spritecollideany(self, self.another_objects):
+                self.rect.centerx = start[0]
+                self.rect.centery = start[1]
 
     def re_group(self, objects):
         re_objects = []
@@ -68,33 +59,25 @@ class Player(Object, IDamage):
 
     def update(self, width, height):
         keys = pygame.key.get_pressed()
-        self.attack(self.setting.hit)
-        self.use_spell1(1400, 650)
+        # mouse_pressed = pygame.mouse.get_pressed()
+        self.attack(self.setting.hit, keys)
+        self.use_spell1(1400, 650, keys)
         if keys[self.setting.up]:
             self.rect.y -= self.speed
             if pygame.sprite.spritecollideany(self, self.another_objects):
                 self.rect.y += self.speed
-            if self.rect.y < 0:
-                self.rect.y = 0
 
         if keys[self.setting.down]:
             self.rect.y += self.speed
             if pygame.sprite.spritecollideany(self, self.another_objects):
                 self.rect.y -= self.speed
-            if self.rect.y > height - self.rect.height:
-                self.rect.y = height - self.rect.height
 
         if keys[self.setting.left]:
             self.rect.x -= self.speed
             if pygame.sprite.spritecollideany(self, self.another_objects):
                 self.rect.x += self.speed
-            if self.rect.x < 0:
-                self.rect.x = 0
 
         if keys[self.setting.right]:
             self.rect.x += self.speed
             if pygame.sprite.spritecollideany(self, self.another_objects):
                 self.rect.x -= self.speed
-            if self.rect.x > width - self.rect.width:
-                self.rect.x = width - self.rect.width
-

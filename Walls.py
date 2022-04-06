@@ -1,8 +1,7 @@
 from Object import Object
-from IDamage import DamageObject
 
 
-class SpikeWall(Object, DamageObject):
-    def __init__(self, name, coordinates, size, image, damage):
-        super().__init__(name, coordinates, size, image)
-        DamageObject.__init__(self, damage)
+
+class Wall(Object):
+    def __init__(self, x, y, speed, surf, group):
+        super().__init__(x, y, speed, surf, group)

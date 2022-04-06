@@ -12,3 +12,4 @@ class IDamage:
         if keys[button]:
             pygame.mixer.Sound.play(hit_sound)
 
+

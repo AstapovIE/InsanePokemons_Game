@@ -40,7 +40,7 @@ class Player(Object, IDamage):
         self.another_objects = another_objects
 
     def use_spell1(self, display_width, display_height, keys):
-        blink_kef = 350
+        blink_kef = 400
         pos = pygame.mouse.get_pos()
         start = [self.rect.centerx, self.rect.centery]
         if keys[self.setting.spell1] and check_distance(start[0], start[1], pos[0], pos[1], blink_kef):

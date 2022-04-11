@@ -1,6 +1,13 @@
 from Object import *
 from IDamage import IDamage
 
+
+pygame.init()
+hit_sound = pygame.mixer.Sound('sounds/HitSound.mp3')
+pygame.mixer.Sound.set_volume(hit_sound, 0.05)
+
+bullets = pygame.sprite.Group()
+
 buttons_dict = {'w': pygame.K_w,
                 's': pygame.K_s,
                 'a': pygame.K_a,
@@ -33,9 +40,11 @@ class Settings():
 
 
 class Player(Object, IDamage):
-    def __init__(self, x, y, speed, surf, group, damage, setting, another_objects):
+    def __init__(self, x, y, speed, surf, group, damage, shoot_timer, shoot_delay, setting, another_objects):
         super().__init__(x, y, speed, surf, group)
         self.damage = damage
+        self.shoot_timer = shoot_timer
+        self.shoot_delay = shoot_delay
         self.setting = setting
         self.another_objects = another_objects
 
@@ -50,6 +59,12 @@ class Player(Object, IDamage):
                 self.rect.centerx = start[0]
                 self.rect.centery = start[1]
 
+    '''def attack(self, mouse):
+        if mouse[0]:
+            pygame.mixer.Sound.play(hit_sound)
+            pos = pygame.mouse.get_pos()
+            create_bullet(pos[0], pos[1], 10)'''
+
     def re_group(self, objects):
         re_objects = []
         for object in objects:
@@ -59,8 +74,7 @@ class Player(Object, IDamage):
 
     def update(self, width, height):
         keys = pygame.key.get_pressed()
-        # mouse_pressed = pygame.mouse.get_pressed()
-        self.attack(self.setting.hit, keys)
+        mouse_pressed = pygame.mouse.get_pressed()
         self.use_spell1(1400, 650, keys)
         if keys[self.setting.up]:
             self.rect.y -= self.speed

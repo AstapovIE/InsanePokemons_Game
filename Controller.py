@@ -3,6 +3,7 @@ from Object import *
 from Player import *
 from Walls import Wall
 from Bullet import *
+from Window import *
 
 pygame.init()
 pygame.mixer.music.load('sounds/digidai.mp3')
@@ -64,25 +65,25 @@ def create_bullet(player):
 def run_game():
     game = True
     # pygame.mixer.music.play(-1)
+    if menu._gameflag == True :
+        while game:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
 
-    while game:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+            create_bullet(tank1)
 
-        create_bullet(tank1)
+            display.blit(display_image, (0, 0))
+            bullets.draw(display)
+            players.draw(display)
+            static_walls.draw(display)
 
-        display.blit(display_image, (0, 0))
-        bullets.draw(display)
-        players.draw(display)
-        static_walls.draw(display)
+            players.update(display_width, display_height)
+            bullets.update(tank2)
 
-        players.update(display_width, display_height)
-        bullets.update(tank2)
-
-        pygame.display.update()
-        FPS.tick(60)
+            pygame.display.update()
+            FPS.tick(60)
 
 
 run_game()

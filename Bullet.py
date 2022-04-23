@@ -18,18 +18,12 @@ class Bullet(Object):
             self.direction = (self.direction[0] / length, self.direction[1] / length)
 
 
-    def update(self, tank1, tank2):
+
+    def update(self, tank_to_kill):
         self.rect.x += self.direction[0] * self.speed
         self.rect.y += self.direction[1] * self.speed
         if pygame.sprite.spritecollideany(self, self.another_objects):
-            if pygame.sprite.collide_rect(self, tank1):
-                tank1.kill()
-                for i in range(len(tank1.obj)):
-                    if tank1 == tank1.obj[i]:
-                        tank1.obj.pop(i)
-                        break
-                for i in range(len(tank2.another_objects)):
-                    if tank1 == tank2.another_objects[i]:
-                        tank2.another_objects.pop(i)
-                        break
+            if pygame.sprite.collide_rect(self, tank_to_kill):
+                tank_to_kill.kill()
+                tank_to_kill.del_from_objects()
             self.kill()

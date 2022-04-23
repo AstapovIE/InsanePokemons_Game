@@ -13,19 +13,23 @@ class Bullet(Object):
         length = math.hypot(*self.direction)
         if length == 0.0:
             self.kill()
+
         else:
             self.direction = (self.direction[0] / length, self.direction[1] / length)
 
 
-    def update(self, tank):
+    def update(self, tank1, tank2):
         self.rect.x += self.direction[0] * self.speed
         self.rect.y += self.direction[1] * self.speed
         if pygame.sprite.spritecollideany(self, self.another_objects):
-            if pygame.sprite.collide_rect(self, tank):
-                tank.kill()
+            if pygame.sprite.collide_rect(self, tank1):
+                tank1.kill()
+                for i in range(len(tank1.obj)):
+                    if tank1 == tank1.obj[i]:
+                        tank1.obj.pop(i)
+                        break
+                for i in range(len(tank2.another_objects)):
+                    if tank1 == tank2.another_objects[i]:
+                        tank2.another_objects.pop(i)
+                        break
             self.kill()
-
-
-
-        '''self.pos = (self.pos[0] + self.dir[0] * self.speed,
-                    self.pos[1] + self.dir[1] * self.speed)'''

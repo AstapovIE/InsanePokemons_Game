@@ -1,7 +1,6 @@
 from Object import *
 from IDamage import IDamage
 
-
 pygame.init()
 hit_sound = pygame.mixer.Sound('sounds/HitSound.mp3')
 pygame.mixer.Sound.set_volume(hit_sound, 0.05)
@@ -40,13 +39,14 @@ class Settings():
 
 
 class Player(Object, IDamage):
-    def __init__(self, x, y, speed, surf, group, damage, shoot_timer, shoot_delay, setting, another_objects):
+    def __init__(self, x, y, speed, surf, group, damage, shoot_timer, shoot_delay, setting, another_objects, obj):
         super().__init__(x, y, speed, surf, group)
         self.damage = damage
         self.shoot_timer = shoot_timer
         self.shoot_delay = shoot_delay
         self.setting = setting
         self.another_objects = another_objects
+        self.obj = obj
 
     def use_spell1(self, display_width, display_height, keys):
         blink_kef = 400
@@ -59,13 +59,8 @@ class Player(Object, IDamage):
                 self.rect.centerx = start[0]
                 self.rect.centery = start[1]
 
-    '''def attack(self, mouse):
-        if mouse[0]:
-            pygame.mixer.Sound.play(hit_sound)
-            pos = pygame.mouse.get_pos()
-            create_bullet(pos[0], pos[1], 10)'''
-
     def re_group(self, objects):
+        self.obj = objects
         re_objects = []
         for object in objects:
             if self != object:
@@ -95,3 +90,4 @@ class Player(Object, IDamage):
             self.rect.x += self.speed
             if pygame.sprite.spritecollideany(self, self.another_objects):
                 self.rect.x -= self.speed
+

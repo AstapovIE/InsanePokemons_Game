@@ -1,32 +1,19 @@
 import pygame.mouse
 from pygame import *
-
-init()
-
-size = (800, 600)
-
-screen = display.set_mode(size)
-
-ARIAL_50 = font.SysFont('arial', 50)
-
-button_sound = pygame.mixer.Sound('sounds/button.wav')
-
-
-def print_text(message, x, y, font_color=(0, 0, 0), font = ARIAL_50):
-    text = font.render(message, True, font_color)
-    screen.blit(text, (x, y))
-
+from Button import *
 
 class Window:
-    def __init__(self):
+    def __init__(self, buttons):
         self._button_surfaces = []
         self._callbacks = []
         self._current_button_index = 0
         self._gameflag = False
-        self._buttons = []
+        self.buttons = buttons
 
     def append_button(self, button, callback):
-        self._button_surfaces.append(ARIAL_50.render(button, True, (255, 255, 255)))
+        y = 100
+        button.draw(20, y, f'button.name')
+        y += 50
         self._callbacks.append(callback)
 
     def switch(self, direction):
@@ -44,35 +31,12 @@ class Window:
             surf.blit(button, button_rect)
 
 
-class Button:
-    def __init__(self, width, height, window):
-        self.width = width
-        self.height = height
-        self.inactive_color = (13, 162, 58)
-        self.active_color = (23, 204, 58)
+Menu = Window(MenuButtons)
+Game = Window(GameButtons)
+Pause = Window(PauseButtons)
 
-    def draw(self, x, y, message, action=None):
-        mouse = pygame.mouse.get_pos()
-        click = pygame.mouse.get_pressed()
-
-        if x < mouse[0] < x + self.width:
-            if y < mouse[1] < y + self.height:
-                pygame.draw.rect(screen, self.active_color, (x, y, self.width, self.height))
-
-                if click[0] == 1:
-                    pygame.mixer.Sound.play(button_sound)
-                    pygame.time.delay(300)
-                    if action is not None:
-                        action()
-        else:
-            pygame.draw.rect(screen, self.inactive_color, (x, y, self.width, self.height))
-
-        print_text(message, x + 10, y + 10)
-
-
-menu = Window()
-menu.append_button('Играть', lambda: print('Играть'))
-menu.append_button('Офнуть помойку', quit)
+Menu.append_button(lambda: print('Играть'))
+Menu.append_button(quit)
 
 running = True
 while running:
@@ -81,15 +45,15 @@ while running:
             running = False
         elif e.type == KEYDOWN:
             if e.key == K_w:
-                menu.switch(-1)
+                Menu.switch(-1)
             elif e.key == K_s:
-                menu.switch(1)
+                Menu.switch(1)
             elif e.key == K_SPACE:
-                menu.select()
+                Menu.select()
 
     screen.fill((0, 0, 0))
 
-    menu.draw(screen, 100, 100, 75)
+    Menu.draw(screen, 100, 100, 75)
 
     display.flip()
 quit()

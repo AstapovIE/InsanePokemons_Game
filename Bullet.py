@@ -13,19 +13,17 @@ class Bullet(Object):
         length = math.hypot(*self.direction)
         if length == 0.0:
             self.kill()
+
         else:
             self.direction = (self.direction[0] / length, self.direction[1] / length)
 
 
-    def update(self, tank):
+
+    def update(self, pika_to_kill):
         self.rect.x += self.direction[0] * self.speed
         self.rect.y += self.direction[1] * self.speed
         if pygame.sprite.spritecollideany(self, self.another_objects):
-            if pygame.sprite.collide_rect(self, tank):
-                tank.kill()
+            if pygame.sprite.collide_rect(self, pika_to_kill):
+                pika_to_kill.kill()
+                pika_to_kill.del_from_objects()
             self.kill()
-
-
-
-        '''self.pos = (self.pos[0] + self.dir[0] * self.speed,
-                    self.pos[1] + self.dir[1] * self.speed)'''

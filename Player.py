@@ -7,58 +7,33 @@ hit_sound = pygame.mixer.Sound('sounds/HitSound.mp3')
 pygame.mixer.Sound.set_volume(hit_sound, 0.05)
 
 
-buttons_dict = {'w': pygame.K_w,
-                's': pygame.K_s,
-                'a': pygame.K_a,
-                'd': pygame.K_d,
-                'up': pygame.K_UP,
-                'down': pygame.K_DOWN,
-                'left': pygame.K_LEFT,
-                'right': pygame.K_RIGHT,
-                'space': pygame.K_SPACE,
-                'l': pygame.K_l,
-                'q': pygame.K_q,
-                'o': pygame.K_o,
-                }
-
-
-def check_distance(x0, y0, x, y, kef):
+def check_distance(x0, y0, x, y, kef):  # ищет расстояние между двумя точками и сравнивает его с коэфициентом
     if ((x - x0) ** 2 + (y - y0) ** 2) ** 0.5 < kef:
         return True
     return False
 
 
-class Settings():
-    def __init__(self, up, down, left, right, hit, spell1):
-        self.up = buttons_dict[up]
-        self.down = buttons_dict[down]
-        self.left = buttons_dict[left]
-        self.right = buttons_dict[right]
-        self.hit = buttons_dict[hit]
-        self.spell1 = buttons_dict[spell1]
-
-
 class Player(Object, IDamage):
-    def __init__(self, x, y, speed, surf, group, damage, shoot_timer, shoot_delay, setting, obj, bullets):
+    def __init__(self, x, y, speed, surf, group, damage, shoot_timer, shoot_delay, setting, obj, my_bullets):
         super().__init__(x, y, speed, surf, group)
         self.damage = damage
         self.shoot_timer = shoot_timer
         self.shoot_delay = shoot_delay
         self.setting = setting
         self.obj = obj
-        self.bullets = bullets
+        self.my_bullets = my_bullets
 
     def fill_obj(self, objects):
         self.obj = objects
 
-    def get_another(self):
+    def get_another(self):  # возвращает список обьектов, в котором нет самого себя
         re_objects = []
         for object in self.obj:
             if self != object:
                 re_objects.append(object)
         return re_objects
 
-    def del_from_objects(self):
+    def del_from_objects(self):  # удаляет игрока из глобального списка объектов
         for i in range(len(self.obj)):
             if self == self.obj[i]:
                 self.obj.pop(i)
@@ -80,7 +55,7 @@ class Player(Object, IDamage):
             self.shoot_timer = self.shoot_delay
             pygame.mixer.Sound.play(hit_sound)
             bullet = Bullet(self.rect.centerx, self.rect.centery, 10,
-                            pygame.image.load('images/cash.jpg').convert(), self.bullets, self.get_another())
+                            pygame.image.load('images/cash.jpg').convert(), self.my_bullets, self.get_another())
         if self.shoot_timer > 0:
             self.shoot_timer -= 1
 
@@ -89,7 +64,20 @@ class Player(Object, IDamage):
         mouse_pressed = pygame.mouse.get_pressed()
         self.use_spell1(keys)
         self.attack(mouse_pressed)
-        xy = (self.rect.x, self.rect.y)
+
+        '''xy = [0, 0]
+        if keys[self.setting.up]:
+            xy[1] -= self.speed
+        if keys[self.setting.down]:
+            xy[1] += self.speed
+        if keys[self.setting.left]:
+            xy[0] -= self.speed
+        if keys[self.setting.right]:
+            xy[0] += self.speed
+        if not pygame.sprite.spritecollideany(self, self.get_another()):
+            self.rect.x += xy[0]
+            self.rect.y += xy[1]'''
+
         if keys[self.setting.up]:
             self.rect.y -= self.speed
             if pygame.sprite.spritecollideany(self, self.get_another()):

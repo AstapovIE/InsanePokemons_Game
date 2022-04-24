@@ -6,7 +6,7 @@ FPS = pygame.time.Clock()
 
 def run_game():
     game = True
-    # pygame.mixer.music.play(-1)
+    # pygame.mixer.music.play(-1)a
     while game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

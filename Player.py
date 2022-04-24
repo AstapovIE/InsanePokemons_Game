@@ -102,3 +102,8 @@ class Player(Object, IDamage):
             self.rect.x += self.speed
             if pygame.sprite.spritecollideany(self, self.get_another()):
                 self.rect.x -= self.speed
+
+
+    def move_on_vector(self, vector):
+        self.rect.x += vector[0]
+        self.rect.y += vector[1]

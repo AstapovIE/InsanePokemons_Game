@@ -19,11 +19,11 @@ class Bullet(Object):
 
 
 
-    def update(self, tank_to_kill):
+    def update(self, pika_to_kill):
         self.rect.x += self.direction[0] * self.speed
         self.rect.y += self.direction[1] * self.speed
         if pygame.sprite.spritecollideany(self, self.another_objects):
-            if pygame.sprite.collide_rect(self, tank_to_kill):
-                tank_to_kill.kill()
-                tank_to_kill.del_from_objects()
+            if pygame.sprite.collide_rect(self, pika_to_kill):
+                pika_to_kill.kill()
+                pika_to_kill.del_from_objects()
             self.kill()

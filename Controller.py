@@ -18,8 +18,8 @@ def run_game():
         players.draw(display)
         static_walls.draw(display)
 
-        players.update(display_width, display_height)
-        bullets.update(tank2)
+        players.update()
+        bullets.update(bulba)
 
         pygame.display.update()
         FPS.tick(60)

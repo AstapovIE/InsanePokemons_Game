@@ -14,11 +14,13 @@ def check_distance(x0, y0, x, y, kef):  # ищет расстояние межд
 
 
 class Player(Object, IDamage):
-    def __init__(self, x, y, speed, surf, group, damage, shoot_timer, shoot_delay, setting, obj, my_bullets):
+    def __init__(self, x, y, speed, surf, group, damage, shoot_timer, shoot_delay, blink_timer, blink_delay, setting, obj, my_bullets):
         super().__init__(x, y, speed, surf, group)
         self.damage = damage
         self.shoot_timer = shoot_timer
         self.shoot_delay = shoot_delay
+        self.blink_timer = blink_timer
+        self.blink_delay = blink_delay
         self.setting = setting
         self.obj = obj
         self.my_bullets = my_bullets
@@ -43,23 +45,26 @@ class Player(Object, IDamage):
         blink_kef = 400
         pos = pygame.mouse.get_pos()
         start = [self.rect.centerx, self.rect.centery]
-        if keys[self.setting.spell1] and check_distance(start[0], start[1], pos[0], pos[1], blink_kef):
+        if keys[self.setting.spell1] and self.blink_timer == 0 and check_distance(start[0], start[1], pos[0], pos[1], blink_kef):
+            self.blink_timer = self.blink_delay
             self.rect.centerx = pos[0]
             self.rect.centery = pos[1]
             if pygame.sprite.spritecollideany(self, self.get_another()):
                 self.rect.centerx = start[0]
                 self.rect.centery = start[1]
+        if self.blink_timer > 0:
+            self.blink_timer -= 1
 
     def attack(self, mouse):
         if mouse[0] and self.shoot_timer == 0:
             self.shoot_timer = self.shoot_delay
             pygame.mixer.Sound.play(hit_sound)
             bullet = Bullet(self.rect.centerx, self.rect.centery, 10,
-                            pygame.image.load('images/cash.jpg').convert(), self.my_bullets, self.get_another())
+                            pygame.image.load('images/boom.png').convert_alpha(), self.my_bullets, self.get_another())
         if self.shoot_timer > 0:
             self.shoot_timer -= 1
 
-    def update(self, width, height):
+    def update(self):
         keys = pygame.key.get_pressed()
         mouse_pressed = pygame.mouse.get_pressed()
         self.use_spell1(keys)

@@ -35,8 +35,8 @@ Menu = Window(MenuButtons)
 Game = Window(GameButtons)
 Pause = Window(PauseButtons)
 
-Menu.append_button(lambda: print('Играть'))
-Menu.append_button(quit)
+Menu.append_button(Menu.buttons[0], lambda: print('Играть'))
+Menu.append_button(Menu.buttons[1], quit)
 
 running = True
 while running:

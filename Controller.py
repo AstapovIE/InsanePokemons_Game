@@ -14,10 +14,13 @@ def run_game():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+        display.blit(fon_image, (-500, -500))
         display.blit(display_image, (d_x, d_y))
         bullets.draw(display)
         players.draw(display)
+        smokes.draw(display)
         static_walls.draw(display)
+
 
         vector = [pika.rect.x, pika.rect.y]
         players.update()
@@ -32,6 +35,7 @@ def run_game():
 
         static_walls.update(vector)
         bullets.update(bulba, vector)
+        smokes.update(vector)
 
 
         pygame.display.update()

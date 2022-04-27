@@ -12,7 +12,7 @@ display = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption('InsanePokemons')
 display_image = pygame.image.load('images/background.jpg').convert()
 #фон за картой
-fon = pygame.Surface((2000, 2000))
+fon = pygame.Surface((900, 550))
 fon_image = pygame.image.load('images/fon.jpg').convert()
 
 camera = Camera(0, 0, display_width, display_height)

@@ -14,7 +14,8 @@ def run_game():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-        display.blit(fon_image, (-500, -500))
+
+        display.blit(fon_image, (0, 0))
         display.blit(display_image, (d_x, d_y))
         bullets.draw(display)
         players.draw(display)
@@ -30,6 +31,7 @@ def run_game():
         pika.rect.y += vector[1]
         d_x += vector[0]
         d_y += vector[1]
+
         bulba.move_on_vector(vector)
         camera.move_on_vector(vector)
 

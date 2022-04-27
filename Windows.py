@@ -12,15 +12,15 @@ class Window:
 
     def append_button(self, button, callback):
         y = 100
-        button.draw(20, y, f'button.name')
+        button.draw(20, y, f'{button.name}')
         y += 50
-        self._callbacks.append(callback)
+        '''self._callbacks.append(callback)'''
 
-    def switch(self, direction):
-        self._current_button_index = max(0, min(self._current_button_index + direction, len(self._button_surfaces) - 1))
+    '''def switch(self, direction):
+        self._current_button_index = max(0, min(self._current_button_index + direction, len(self._button_surfaces) - 1))'''
 
-    def select(self):
-        self._callbacks[self._current_button_index]()
+    '''def select(self):
+        self._callbacks[self._current_button_index]()'''
 
     def draw(self, surf, x, y, button_y_padding):
         for i, button in enumerate(self._button_surfaces):
@@ -38,7 +38,22 @@ Pause = Window(PauseButtons)
 Menu.append_button(Menu.buttons[0], lambda: print('Играть'))
 Menu.append_button(Menu.buttons[1], quit)
 
-running = True
+def show_menu():
+    menu_bckgr = pygame.image.load('images/background.jpg')
+
+    show = True
+    while show:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+        screen.blit(menu_bckgr, (0, 0))
+        Menu.buttons[0].draw(300, 200, f'{Menu.buttons[0].name}')
+        pygame.display.update()
+        clock.tick(60)
+
+'''running = True
 while running:
     for e in event.get():
         if e.type == QUIT:
@@ -55,5 +70,5 @@ while running:
 
     Menu.draw(screen, 100, 100, 75)
 
-    display.flip()
+    display.flip()'''
 quit()

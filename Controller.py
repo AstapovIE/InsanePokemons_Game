@@ -21,7 +21,8 @@ def run_game():
         players.draw(display)
         smokes.draw(display)
         static_walls.draw(display)
-        trees.draw(display)
+        cronas.draw(display)
+        stvols.draw(display)
 
 
         vector = [pika.rect.x, pika.rect.y]
@@ -37,7 +38,8 @@ def run_game():
         camera.move_on_vector(vector)
 
         static_walls.update(vector)
-        trees.update(vector)
+        cronas.update(vector)
+        stvols.update(vector)
         bullets.update(bulba, vector)
         smokes.update(vector)
 

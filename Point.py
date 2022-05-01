@@ -1,5 +1,3 @@
-
-
 class Point1D:
     def __init__(self, x):
         self.x = x
@@ -13,6 +11,16 @@ class Point2D(Point1D):
         super().__init__(x)
         self.y = y
 
+    '''
+    def __init__(self, *args):
+        
+        if isinstance(args[0], int) and isinstance(args[1], int):
+            super().__init__(args[0])
+            self.y = args[1]
+        else:
+            self.x = args[0][0]
+            self.y = args[0][1]'''
+
     def calculate_distance(self, other):
         return ((other.x - self.x) ** 2 + (other.y - self.y) ** 2) ** 0.5
 
@@ -22,7 +30,7 @@ class Vector(Point2D):
         super().__init__(x, y)
 
     def __iadd__(self, other):
-        if isinstance(other, Point2D):
+        if isinstance(other, Vector) or isinstance(other, Point2D):
             self.x += other.x
             self.y += other.y
         else:
@@ -32,7 +40,7 @@ class Vector(Point2D):
         return self
 
     def __isub__(self, other):
-        if isinstance(other, Vector):
+        if isinstance(other, Vector) or isinstance(other, Point2D):
             self.x -= other.x
             self.y -= other.y
         else:
@@ -49,4 +57,3 @@ class Point3D(Point2D):
 
     def calculate_distance(self, other):
         return ((other.x - self.x) ** 2 + (other.y - self.y) ** 2 + (other.z - self.z) ** 2) ** 0.5
-

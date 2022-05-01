@@ -27,9 +27,9 @@ static_walls = pygame.sprite.Group()
 bullets = pygame.sprite.Group()
 smokes = pygame.sprite.Group()
 
-pika = Player(display_width / 2, display_height / 2, 5, player_surf[0], players, 777, 0, 60, 0, 300, 0, 600, Setting1(), [],
+pika = Player(display_width / 2, display_height / 2, 5, player_surf[0], players, 777, Setting1(), [],
               bullets, smokes)
-bulba = Player(910, 400, 5, player_surf[1], players, 777, 0, 30, 0, 300, 0, 600, Setting2(), [], bullets, smokes)
+bulba = Player(910, 400, 5, player_surf[1], players, 777, Setting2(), [], bullets, smokes)
 
 left_border = Wall(25, 325, 0, wall_surf[0], static_walls)
 right_border = Wall(1375, 325, 0, wall_surf[0], static_walls)

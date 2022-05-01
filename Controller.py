@@ -8,7 +8,7 @@ class Controller:
 
     def run_game(self, player):
         game = True
-        # pygame.mixer.music.play(-1)a
+        # pygame.mixer.music.play(-1)
         delta = Vector(0, 0) #для движения backgrond'a
         while game:
             for event in pygame.event.get():

@@ -1,5 +1,5 @@
 import pygame
-from Point import Vector
+from Point import Vector, Point2D
 
 
 class Object(pygame.sprite.Sprite):

@@ -8,8 +8,8 @@ class IDamage:
     def __init__(self, damage):
         self.damage = damage
 
-    def attack(self, mouse):
-        if mouse[0]:
+    def attack(self, LKM):
+        if LKM:
             pygame.mixer.Sound.play(hit_sound)
 
 

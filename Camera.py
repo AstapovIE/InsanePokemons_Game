@@ -5,6 +5,7 @@ class Camera:
         self.rect = pygame.Rect(x, y, w, h)
 
     def move_on_vector(self, vector):
-        self.rect[0] += vector[0]
-        self.rect[1] += vector[1]
+        self.rect.x += vector.x
+        self.rect.y += vector.y
+
 

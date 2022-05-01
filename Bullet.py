@@ -1,6 +1,6 @@
 import pygame
 import math
-from Object import Object
+from Object import *
 
 
 class Bullet(Object):
@@ -9,23 +9,23 @@ class Bullet(Object):
         self.another_objects = another_objects
         '''calculate_direction'''
         mx, my = pygame.mouse.get_pos()
-        self.direction = (mx - x, my - y)
-        length = math.hypot(*self.direction)
+        self.direction = Vector(mx - x, my - y)
+        length = math.hypot(self.direction.x, self.direction.y)
         if length == 0.0:
             self.kill()
 
         else:
-            self.direction = (self.direction[0] / length, self.direction[1] / length)
+            self.direction = Vector(self.direction.x / length, self.direction.y / length)
 
 
 
     def update(self, pika_to_kill, vector):
-        self.rect.x += self.direction[0] * self.speed
-        self.rect.y += self.direction[1] * self.speed
+        super().update(vector)
+        self.rect.x += self.direction.x * self.speed
+        self.rect.y += self.direction.y * self.speed
         if pygame.sprite.spritecollideany(self, self.another_objects):
             if pygame.sprite.collide_rect(self, pika_to_kill):
                 pika_to_kill.kill()
                 pika_to_kill.del_from_objects()
             self.kill()
-        self.rect.x += vector[0]
-        self.rect.y += vector[1]
+

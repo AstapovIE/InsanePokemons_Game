@@ -22,6 +22,7 @@ class Controller:
             players.draw(display)
             smokes.draw(display)
             static_walls.draw(display)
+            stans_images.draw(display)
 
             vector = Vector(Player.rect.x, Player.rect.y)  # отслеживаем смещение главного игрока для камеры
             players.update()
@@ -35,6 +36,7 @@ class Controller:
             static_walls.update(vector)
             bullets.update(bulba, vector)
             smokes.update(vector)
+            stans_images.update(vector)
 
             pygame.display.update()
             FPS.tick(60)

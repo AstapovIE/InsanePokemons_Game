@@ -27,14 +27,17 @@ players = pygame.sprite.Group()
 static_walls = pygame.sprite.Group()
 bullets = pygame.sprite.Group()
 smokes = pygame.sprite.Group()
+stans_images = pygame.sprite.Group()
 
 blink = Blink(0, 300, 400)
 make_smoke = MakeSmoke(0, 600, 300, smokes)
-pika = Player(display_width / 2, display_height / 2, 5, player_surf[0], players, 777, Setting1(), [],
-              bullets, blink)
+stan1 = Stan(0, 300, 400, 40, 300, stans_images, None)
+stan2 = Stan(0, 600, 400, 40, 300, stans_images, None)
+pika = Player(display_width / 2, display_height / 2, 5, player_surf[0], players, None, 5, Setting1(), [],
+              bullets, blink, stan1)
 
 
-bulba = Player(910, 400, 5, player_surf[1], players, 777, Setting2(), [], bullets, make_smoke)
+bulba = Player(910, 400, 5, player_surf[1], players, None, 5, Setting2(), [], bullets, make_smoke, stan2)
 
 left_border = Wall(25, 325, 0, wall_surf[0], static_walls)
 right_border = Wall(1375, 325, 0, wall_surf[0], static_walls)
@@ -45,4 +48,6 @@ objects = [pika, bulba, left_border, right_border, up_border, down_border]
 
 pika.fill_obj(objects)
 bulba.fill_obj(objects)
+pika.fill_enemy(bulba)
+bulba.fill_enemy(pika)
 

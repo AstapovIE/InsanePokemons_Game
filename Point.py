@@ -57,3 +57,30 @@ class Point3D(Point2D):
 
     def calculate_distance(self, other):
         return ((other.x - self.x) ** 2 + (other.y - self.y) ** 2 + (other.z - self.z) ** 2) ** 0.5
+
+    def get_white(self):
+        return (255, 255, 255)
+
+    def get_black(self):
+        return (0, 0, 0)
+
+    def get_red(self):
+        return (255, 0, 0)
+
+    def get_green(self):
+        return (0, 255, 0)
+
+    def get_blue(self):
+        return (0, 0, 255)
+
+
+# class Color(Point3D):
+#     def __init__(self, x, y, z):
+#         super().__init__(x, y, z)
+#
+#     def ???
+
+
+# a = Point3D(0, 0, 0)
+# WHITE = a.get_white()
+# print(WHITE)

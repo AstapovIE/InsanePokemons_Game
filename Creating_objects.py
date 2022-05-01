@@ -2,6 +2,7 @@ from Player import *
 from Walls import Wall
 from Settings import *
 from Camera import Camera
+from Spells import *
 
 pygame.mixer.music.load('sounds/digidai.mp3')
 pygame.mixer.music.set_volume(0.17)
@@ -27,9 +28,13 @@ static_walls = pygame.sprite.Group()
 bullets = pygame.sprite.Group()
 smokes = pygame.sprite.Group()
 
+blink = Blink(0, 300, 400)
+make_smoke = MakeSmoke(0, 600, 300, smokes)
 pika = Player(display_width / 2, display_height / 2, 5, player_surf[0], players, 777, Setting1(), [],
-              bullets, smokes)
-bulba = Player(910, 400, 5, player_surf[1], players, 777, Setting2(), [], bullets, smokes)
+              bullets, blink)
+
+
+bulba = Player(910, 400, 5, player_surf[1], players, 777, Setting2(), [], bullets, make_smoke)
 
 left_border = Wall(25, 325, 0, wall_surf[0], static_walls)
 right_border = Wall(1375, 325, 0, wall_surf[0], static_walls)
@@ -40,3 +45,4 @@ objects = [pika, bulba, left_border, right_border, up_border, down_border]
 
 pika.fill_obj(objects)
 bulba.fill_obj(objects)
+

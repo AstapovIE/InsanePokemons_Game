@@ -1,7 +1,6 @@
 from Object import *
 from IDamage import IDamage
 from Bullet import Bullet
-from Smoke import Smoke
 
 pygame.init()
 hit_sound = pygame.mixer.Sound('sounds/HitSound.mp3')
@@ -15,13 +14,14 @@ def if_lkm_pressed(mouse):
 
 
 class Player(Object, IDamage):
-    def __init__(self, x, y, speed, surf, group, damage, setting, obj, my_bullets, my_smokes):
+    def __init__(self, x, y, speed, surf, group, damage, setting, obj, my_bullets, spell1, spell2=None):
         super().__init__(x, y, speed, surf, group)
         self.damage = damage
         self.setting = setting
         self.obj = obj
         self.my_bullets = my_bullets
-        self.my_smokes = my_smokes
+        self.spell1 = spell1
+        self.spell2 = spell2
 
     def fill_obj(self, objects):
         self.obj = objects
@@ -39,31 +39,6 @@ class Player(Object, IDamage):
                 self.obj.pop(i)
                 break
 
-    def use_spell1(self, keys):
-        pos = pygame.mouse.get_pos()
-        pos_to_blink = Point2D(pos[0], pos[1])  #не смог сделать конструктор на основе кортежа(см Point.py)
-        start_pos = Vector(self.rect.centerx, self.rect.centery)
-        distance = start_pos.calculate_distance(pos_to_blink)
-
-        if keys[self.setting.spell1] and self.setting.blink_timer == 0 and distance <= self.setting.blink_kef:
-            self.setting.blink_timer = self.setting.blink_delay
-            self.rect.centerx = pos_to_blink.x
-            self.rect.centery = pos_to_blink.y
-            if pygame.sprite.spritecollideany(self, self.get_another()):
-                self.rect.centerx = start_pos.x
-                self.rect.centery = start_pos.y
-        if self.setting.blink_timer > 0:
-            self.setting.blink_timer -= 1
-
-    def use_spell2(self, keys):
-        if keys[self.setting.spell2] and self.setting.smoke_timer == 0:
-            smoke = Smoke(self.rect.centerx, self.rect.centery, pygame.image.load('images/smoke.png').convert_alpha(),
-                          self.my_smokes, self.setting.smoke_life_time)
-            self.setting.smoke_timer = self.setting.smoke_delay
-        if self.setting.smoke_timer > 0:
-            self.setting.smoke_timer -= 1
-
-
     def attack(self, LKM):
         if LKM and self.setting.shoot_timer == 0:
             self.setting.shoot_timer = self.setting.shoot_delay
@@ -77,22 +52,9 @@ class Player(Object, IDamage):
         keys = pygame.key.get_pressed()
         LKM = if_lkm_pressed(pygame.mouse.get_pressed())
 
-        self.use_spell1(keys)
-        self.use_spell2(keys)
+        self.spell1.update(keys, self, self.setting.spell1)
+        # self.spell2.update(keys, self, self.setting.spell2)
         self.attack(LKM)
-
-        '''xy = [0, 0]
-        if keys[self.setting.up]:
-            xy[1] -= self.speed
-        if keys[self.setting.down]:
-            xy[1] += self.speed
-        if keys[self.setting.left]:
-            xy[0] -= self.speed
-        if keys[self.setting.right]:
-            xy[0] += self.speed
-        if not pygame.sprite.spritecollideany(self, self.get_another()):
-            self.rect.x += xy[0]
-            self.rect.y += xy[1]'''
 
         if keys[self.setting.up]:
             self.rect.y -= self.speed
@@ -117,3 +79,15 @@ class Player(Object, IDamage):
     def move_on_vector(self, vector):
         self += vector
 
+        '''xy = [0, 0]
+                if keys[self.setting.up]:
+                    xy[1] -= self.speed
+                if keys[self.setting.down]:
+                    xy[1] += self.speed
+                if keys[self.setting.left]:
+                    xy[0] -= self.speed
+                if keys[self.setting.right]:
+                    xy[0] += self.speed
+                if not pygame.sprite.spritecollideany(self, self.get_another()):
+                    self.rect.x += xy[0]
+                    self.rect.y += xy[1]'''

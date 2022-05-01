@@ -14,6 +14,7 @@ class Setting1(Settings):
         self.shoot_delay = 60
         self.bullet_speed = 10
         self.spell1 = pygame.K_q #blink
+        self.spell2 = pygame.K_e #stan
 
 
 
@@ -27,3 +28,4 @@ class Setting2(Settings):
         self.shoot_delay = 30
         self.bullet_speed = 10
         self.spell1 = pygame.K_i #smoke
+        self.spell2 = pygame.K_o  # stan

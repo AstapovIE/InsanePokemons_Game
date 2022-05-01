@@ -11,8 +11,7 @@ class Smoke(Object):
         self.live_time = live_time
 
     def update(self, vector):
-        self.rect.x += vector[0]
-        self.rect.y += vector[1]
+        super().update(vector)
         self.live_time -= 1
         if self.live_time == 0:
             self.kill()

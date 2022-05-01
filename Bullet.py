@@ -20,6 +20,7 @@ class Bullet(Object):
 
 
     def update(self, pika_to_kill, vector):
+        super().update(vector)
         self.rect.x += self.direction[0] * self.speed
         self.rect.y += self.direction[1] * self.speed
         if pygame.sprite.spritecollideany(self, self.another_objects):
@@ -27,5 +28,4 @@ class Bullet(Object):
                 pika_to_kill.kill()
                 pika_to_kill.del_from_objects()
             self.kill()
-        self.rect.x += vector[0]
-        self.rect.y += vector[1]
+

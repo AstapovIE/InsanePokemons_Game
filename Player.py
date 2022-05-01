@@ -119,5 +119,5 @@ class Player(Object, IDamage):
                 self.rect.x -= self.speed
 
     def move_on_vector(self, vector):
-        self.rect.x += vector[0]
-        self.rect.y += vector[1]
+        self += vector
+

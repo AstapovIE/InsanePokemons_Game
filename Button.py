@@ -21,6 +21,7 @@ class Button:
         self.inactive_color = (13, 162, 58)
         self.active_color = (23, 204, 58)
 
+
     def draw(self, x, y, message, action=None):
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()

@@ -85,8 +85,7 @@ class Player(Object, IDamage):
         self.use_spell2(keys)
         self.attack(mouse_pressed)
 
-        '''xy = [0, 0]
-        if keys[self.setting.up]:
+        '''if keys[self.setting.up]:
             xy[1] -= self.speed
         if keys[self.setting.down]:
             xy[1] += self.speed

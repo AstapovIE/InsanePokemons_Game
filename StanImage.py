@@ -1,8 +1,7 @@
 import pygame
 from Object import Object
 
-
-class Smoke(Object):
+class StanImage(Object):
     def __init__(self, x, y, surf, group, life_time):
         pygame.sprite.Sprite.__init__(self)
         self.image = surf
@@ -16,3 +15,5 @@ class Smoke(Object):
         if self.life_time == 0:
             self.kill()
 
+    def do_stan(self, target, stan_time):
+        target.stanned = stan_time

@@ -1,4 +1,6 @@
 import pygame
+from Point import Vector
+
 
 class Object(pygame.sprite.Sprite):
     def __init__(self, x, y, speed, surf, group):
@@ -8,10 +10,14 @@ class Object(pygame.sprite.Sprite):
         self.speed = speed
         self.add(group)
 
+    def __iadd__(self, other):
+        if not isinstance(other, Vector):
+            raise ValueError("second operand not Vector")
+        self.rect.x += other.x
+        self.rect.y += other.y
+        return self
 
-
-
-
-
+    def update(self, vector):
+        self += vector
 
 

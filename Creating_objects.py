@@ -37,7 +37,7 @@ ult2 = Explosion(0, 600, 150, 10, 100)
 pika = Player(display_width / 2, display_height / 2, 5, player_surf[0], players, None, 20, Setting1(), [],
               bullets, blink1, stan1, ult1)
 
-bulba = Player(910, 400, 5, player_surf[1], players, None, 20, Setting2(), [], bullets, make_smoke, stan2, ult2)
+bulba = Player(910, 400, 5, player_surf[1], players, None, 10, Setting2(), [], bullets, make_smoke, stan2, ult2)
 
 left_border = Wall(25, 325, 0, wall_surf[0], static_walls)
 right_border = Wall(1375, 325, 0, wall_surf[0], static_walls)

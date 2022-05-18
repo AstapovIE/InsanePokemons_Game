@@ -5,6 +5,9 @@ pygame.init()
 hit_sound = pygame.mixer.Sound('sounds/HitSound.mp3')
 pygame.mixer.Sound.set_volume(hit_sound, 0.25)
 
+dead_sound = pygame.mixer.Sound('sounds/dead_sound.mp3')
+pygame.mixer.Sound.set_volume(dead_sound, 0.25)
+
 
 def if_lkm_pressed(mouse):
     if mouse[0]:
@@ -28,6 +31,7 @@ class Player(Object):
 
     def is_dead(self):
         if self.health <= 0:
+            pygame.mixer.Sound.play(dead_sound)
             self.kill()
             self.del_from_objects()
 

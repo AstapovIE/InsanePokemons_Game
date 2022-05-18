@@ -1,6 +1,7 @@
 import pygame
 from Object import Object
 
+
 class StanImage(Object):
     def __init__(self, x, y, surf, group, life_time):
         pygame.sprite.Sprite.__init__(self)

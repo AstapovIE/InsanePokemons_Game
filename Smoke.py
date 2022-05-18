@@ -15,4 +15,3 @@ class Smoke(Object):
         self.life_time -= 1
         if self.life_time == 0:
             self.kill()
-

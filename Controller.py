@@ -24,14 +24,13 @@ class Controller:
             static_walls.draw(display)
             stans_images.draw(display)
 
-            vector = Vector(Player.rect.x, Player.rect.y)  # отслеживаем смещение главного игрока для камеры
+            vector = Vector(Player.rect.x, Player.rect.y)  # отслеживаем смещение главного игрока
             players.update()
             vector -= Player
             Player += vector
             delta += vector
 
             bulba.move_on_vector(vector)
-            camera.move_on_vector(vector)
 
             static_walls.update(vector)
             bullets.update(bulba, vector)

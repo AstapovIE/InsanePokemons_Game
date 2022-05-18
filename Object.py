@@ -19,5 +19,3 @@ class Object(pygame.sprite.Sprite):
 
     def update(self, vector):
         self += vector
-
-

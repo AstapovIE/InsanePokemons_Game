@@ -1,4 +1,3 @@
-import pygame
 import math
 from Object import *
 from IDamage import IDamage
@@ -19,8 +18,6 @@ class Bullet(Object, IDamage):
         else:
             self.direction = Vector(self.direction.x / length, self.direction.y / length)
 
-
-
     def update(self, target, vector):
         super().update(vector)
         self.rect.x += self.direction.x * self.speed
@@ -29,4 +26,3 @@ class Bullet(Object, IDamage):
             if pygame.sprite.collide_rect(self, target):
                 self.do_damage(target)
             self.kill()
-

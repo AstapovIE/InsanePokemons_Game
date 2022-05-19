@@ -17,12 +17,14 @@ class Controller:
                     quit()
 
             display.blit(fon_image, (0, 0))
-            display.blit(display_image, (delta.x, delta.y))
             bullets.draw(display)
             players.draw(display)
             smokes.draw(display)
             static_walls.draw(display)
             stans_images.draw(display)
+            kronas.draw(display)
+            stvols.draw(display)
+            bushes.draw(display)
 
             vector = Vector(Player.rect.x, Player.rect.y)  # отслеживаем смещение главного игрока для камеры
             players.update()
@@ -37,6 +39,9 @@ class Controller:
             bullets.update(bulba, vector)
             smokes.update(vector)
             stans_images.update(vector)
+            kronas.update(vector)
+            stvols.update(vector)
+            bushes.update(vector)
 
             pygame.display.update()
             FPS.tick(60)

@@ -3,6 +3,8 @@ from Walls import Wall
 from Settings import *
 from Spells import *
 
+FPS = pygame.time.Clock()
+
 pygame.mixer.music.load('sounds/digidai.mp3')
 pygame.mixer.music.set_volume(0.17)
 
@@ -17,22 +19,28 @@ fon_image = pygame.image.load('images/fon.jpg').convert()
 
 players_images = ['pikachu.png', 'bulbazavr.png']
 player_surf = [pygame.image.load('images/' + i).convert_alpha() for i in players_images]
+
 walls_images = ['vert_wall.jpg', 'gor_wall.jpg']
 wall_surf = [pygame.image.load('images/' + i).convert() for i in walls_images]
+
+ex = ['ex1.png', 'ex2.png', 'ex3.png', 'ex4.png', 'ex5.png', 'ex6.png', 'ex7.png', 'ex8.png',
+                          'ex9.png', 'ex10.png']
+arr_of_explosion_images = [pygame.image.load('images/' + i).convert_alpha() for i in ex]
 
 players = pygame.sprite.Group()
 static_walls = pygame.sprite.Group()
 bullets = pygame.sprite.Group()
 smokes = pygame.sprite.Group()
 stans_images = pygame.sprite.Group()
+explosion_images = pygame.sprite.Group()
 
 blink1 = Blink(0, 300, 400)
 blink2 = Blink(0, 300, 400)
 make_smoke = MakeSmoke(0, 600, 300, smokes)
 stan1 = Stan(0, 300, 400, 40, 300, stans_images, None)
 stan2 = Stan(0, 600, 400, 40, 300, stans_images, None)
-ult1 = Explosion(0, 600, 150, 10, 100)
-ult2 = Explosion(0, 600, 150, 10, 100)
+ult1 = Explosion(0, 600, 150, 10, 100, 20, explosion_images, arr_of_explosion_images)
+ult2 = Explosion(0, 600, 150, 10, 100, 20, explosion_images, arr_of_explosion_images)
 
 pika = Player(display_width / 2, display_height / 2, 5, player_surf[0], players, None, 20, Setting1(), [],
               bullets, blink1, stan1, ult1)

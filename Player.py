@@ -1,5 +1,6 @@
 from Object import *
 from Bullet import Bullet
+from IGetDamage import IGetDamage
 
 pygame.init()
 hit_sound = pygame.mixer.Sound('sounds/HitSound.mp3')
@@ -15,7 +16,7 @@ def if_lkm_pressed(mouse):
     return False
 
 
-class Player(Object):
+class Player(Object, IGetDamage):
     def __init__(self, x, y, speed, surf, group, enemy, health, setting, obj, my_bullets, spell1, spell2=None,
                  spell3=None, stanned=0):
         super().__init__(x, y, speed, surf, group)

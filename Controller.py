@@ -1,12 +1,11 @@
 from Creating_objects import *
 
 pygame.init()
-FPS = pygame.time.Clock()
 
 
 class Controller:
 
-    def run_game(self, Player):
+    def run_game(self, Player, FPS):
         game = True
         # pygame.mixer.music.play(-1)
         delta = Vector(0, 0)  # для движения backgrond'a
@@ -23,6 +22,8 @@ class Controller:
             smokes.draw(display)
             static_walls.draw(display)
             stans_images.draw(display)
+            explosion_images.draw(display)
+
 
             vector = Vector(Player.rect.x, Player.rect.y)  # отслеживаем смещение главного игрока
             players.update()
@@ -36,6 +37,8 @@ class Controller:
             bullets.update(bulba, vector)
             smokes.update(vector)
             stans_images.update(vector)
+            explosion_images.update()
+
 
             pygame.display.update()
             FPS.tick(60)

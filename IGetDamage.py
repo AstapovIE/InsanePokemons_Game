@@ -1,9 +1,4 @@
-import pygame
-
-pygame.init()
-
-get_damage_sound = pygame.mixer.Sound('sounds/get_damage_sound2.mp3')
-pygame.mixer.Sound.set_volume(get_damage_sound, 0.4)
+from Sounds import get_damage_sound, pygame
 
 
 class IGetDamage:

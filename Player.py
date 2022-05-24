@@ -2,7 +2,6 @@ from Object import *
 from Bullet import Bullet
 from IGetDamage import IGetDamage
 
-pygame.init()
 hit_sound = pygame.mixer.Sound('sounds/HitSound.mp3')
 pygame.mixer.Sound.set_volume(hit_sound, 0.25)
 
@@ -66,7 +65,7 @@ class Player(Object, IGetDamage):
             self.setting.shoot_timer = self.setting.shoot_delay
             pygame.mixer.Sound.play(hit_sound)
             bullet = Bullet(self.rect.centerx, self.rect.centery, self.setting.bullet_speed,
-                            pygame.image.load('images/boom.png').convert_alpha(), self.my_bullets, 2,
+                            'boom.png', self.my_bullets, 2,
                             self.get_another())
         if self.setting.shoot_timer > 0:
             self.setting.shoot_timer -= 1

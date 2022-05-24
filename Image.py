@@ -1,4 +1,4 @@
-from Object import Object
+from Object import *
 
 class Image(Object):
     def __init__(self, x, y, speed, surf, group, life_time):

@@ -1,7 +1,13 @@
 from Controller import Controller
-from Creating_objects import pika, FPS
+from Object import pygame
 
-# pika - main Player
+FPS = pygame.time.Clock()
 
-controller = Controller()
-controller.run_game(pika, FPS)
+display_width = 900  # 1400
+display_height = 550  # 650
+display = pygame.display.set_mode((display_width, display_height))
+pygame.display.set_caption('InsanePokemons')
+
+controller = Controller(FPS, display)
+
+controller.run_game()

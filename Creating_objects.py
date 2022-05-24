@@ -5,6 +5,7 @@ from Spells import *
 
 FPS = pygame.time.Clock()
 
+
 pygame.mixer.music.load('sounds/digidai.mp3')
 pygame.mixer.music.set_volume(0.17)
 
@@ -58,3 +59,5 @@ pika.fill_obj(objects)
 bulba.fill_obj(objects)
 pika.fill_enemy(bulba)
 bulba.fill_enemy(pika)
+
+

@@ -1,4 +1,4 @@
-from Image import Image
+from Image import *
 
 
 class StanImage(Image):

@@ -1,4 +1,3 @@
-import pygame
 from Point import *
 from Images import *
 from IDamage import IDamage
@@ -12,10 +11,6 @@ pygame.mixer.Sound.set_volume(smoke_sound, 0.4)
 ult_sound = pygame.mixer.Sound('sounds/UaA_mem_sound.mp3')
 pygame.mixer.Sound.set_volume(ult_sound, 0.4)
 
-
-# ex = ['ex1.png', 'ex2.png', 'ex3.png', 'ex4.png', 'ex5.png', 'ex6.png', 'ex7.png', 'ex8.png',
-#                           'ex9.png', 'ex10.png']
-# explosion_images = [pygame.image.load('images/' + i).convert_alpha() for i in ex]
 
 
 class Spell:
@@ -57,23 +52,25 @@ class MakeSmoke(Spell):
     def update(self, keys, player, key):
         if keys[key] and self.timer == 0:
             pygame.mixer.Sound.play(smoke_sound)
-            smoke = SmokeImage(player.rect.centerx, player.rect.centery, 0,
-                               pygame.image.load('images/smoke.png').convert_alpha(),
-                               self.group, self.life_time)
+            smoke = SmokeImage(player.rect.centerx, player.rect.centery, 0, 'smoke.png', self.group, self.life_time)
             self.timer = self.cooldown
         if self.timer > 0:
             self.timer -= 1
 
 
+ex = ['ex1.png', 'ex2.png', 'ex3.png', 'ex4.png', 'ex5.png', 'ex6.png', 'ex7.png', 'ex8.png',
+      'ex9.png', 'ex10.png']
+
+
 class Explosion(Spell, IDamage):
-    def __init__(self, timer, cooldown, range, damage, activate_time, delay_for_im, group, arr_of_im):
+    def __init__(self, timer, cooldown, range, damage, activate_time, delay_for_im, group):
         super().__init__(timer, cooldown)
         self.range = range
         self.damage = damage
         self.activate_time = activate_time
         self.delay_for_im = delay_for_im
         self.group = group
-        self.arr_of_im = arr_of_im
+        self.arr_of_im = ex
 
     def update(self, keys, player, key, target):
         if keys[key] and self.timer == 0:
@@ -111,9 +108,7 @@ class Stan(Spell):
             distance = start_pos.calculate_distance(pos_to_draw)
 
             if distance <= self.range:
-                stan_image = StanImage(pos_to_draw.x, pos_to_draw.y, 0,
-                                       pygame.image.load('images/stan.png').convert_alpha(),
-                                       self.group, self.activate_time)
+                stan_image = StanImage(pos_to_draw.x, pos_to_draw.y, 0, 'stan.png', self.group, self.activate_time)
                 self.stan_image = stan_image
 
             self.timer = self.cooldown

@@ -1,16 +1,7 @@
 from Point import *
 from Images import *
 from IDamage import IDamage
-
-blink_sound = pygame.mixer.Sound('sounds/blink_sound1.mp3')
-pygame.mixer.Sound.set_volume(blink_sound, 0.4)
-
-smoke_sound = pygame.mixer.Sound('sounds/smoke_sound.mp3')
-pygame.mixer.Sound.set_volume(smoke_sound, 0.4)
-
-ult_sound = pygame.mixer.Sound('sounds/UaA_mem_sound.mp3')
-pygame.mixer.Sound.set_volume(ult_sound, 0.4)
-
+from Sounds import blink_sound, smoke_sound, ult_sound
 
 
 class Spell:

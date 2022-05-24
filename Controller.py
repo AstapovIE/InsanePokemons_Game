@@ -17,6 +17,7 @@ class Controller:
         self.stans_images = pygame.sprite.Group()
         self.explosion_images = pygame.sprite.Group()
 
+
         self.FPS = FPS
         self.display = display
         self.delta = Vector(0, 0)

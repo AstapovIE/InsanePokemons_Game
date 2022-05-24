@@ -1,12 +1,7 @@
 from Object import *
 from Bullet import Bullet
 from IGetDamage import IGetDamage
-
-hit_sound = pygame.mixer.Sound('sounds/HitSound.mp3')
-pygame.mixer.Sound.set_volume(hit_sound, 0.25)
-
-dead_sound = pygame.mixer.Sound('sounds/dead_sound.mp3')
-pygame.mixer.Sound.set_volume(dead_sound, 0.25)
+from Sounds import dead_sound, hit_sound
 
 
 def if_lkm_pressed(mouse):

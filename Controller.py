@@ -1,21 +1,29 @@
 from Player import *
-from Walls import Wall
+from Walls import *
+from Bulding import Bulding
 from Settings import *
 from Spells import *
-from Sounds import game_sound
+from Nature import *
 
 
-
+pygame.mixer.music.load('sounds/game_sound.mp3')
+pygame.mixer.music.set_volume(0.05)
 
 class Controller:
     def __init__(self, FPS, display):
 
         self.players = pygame.sprite.Group()
-        self.static_walls = pygame.sprite.Group()
+        self.walls = pygame.sprite.Group()
+        self.breakeable_walls = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
         self.smokes = pygame.sprite.Group()
         self.stans_images = pygame.sprite.Group()
         self.explosion_images = pygame.sprite.Group()
+        self.bushes = pygame.sprite.Group()
+        self.lakes = pygame.sprite.Group()
+        self.buldings = pygame.sprite.Group()
+        self.trunks = pygame.sprite.Group()
+        self.crowns = pygame.sprite.Group()
 
 
         self.FPS = FPS
@@ -24,21 +32,23 @@ class Controller:
         self.vector = Vector(0, 0)
 
         self.fon_image = pygame.image.load('images/fon.jpg').convert()
-        self.display_image = pygame.image.load('images/background.jpg').convert()
+        self.display_image = pygame.image.load('images/background1.jpg').convert()
 
         self.objects = self.init_objects()
 
         self.player = self.init_player()
         self.enemy = self.init_enemy()
         self.filling()
+        self.creatre_obj_without_collision()
 
     def init_player(self):
-        return Player(450, 225,
+        return Player(700, 325,
                       5,  # speed
                       'pikachu.png',
                       self.players,
                       None,  # enemy
                       20,  # health
+                      2,  # damage
                       Setting1(),
                       self.objects,
                       self.bullets,
@@ -47,12 +57,13 @@ class Controller:
                       Explosion(0, 600, 150, 10, 100, 20, self.explosion_images))
 
     def init_enemy(self):
-        return Player(910, 400,
+        return Player(1150, 850,
                       5,  # speed
                       'bulbazavr.png',
                       self.players,
                       None,  # enemy
-                      10,  # health
+                      15,  # health
+                      2,  # damage
                       Setting2(),
                       self.objects,
                       self.bullets,
@@ -62,11 +73,55 @@ class Controller:
 
     def init_objects(self):
         objects = []
-        objects.append(Wall(25, 325, 0, 'vert_wall.jpg', self.static_walls))
-        objects.append(Wall(1375, 325, 0, 'vert_wall.jpg', self.static_walls))
-        objects.append(Wall(700, 25, 0, 'gor_wall.jpg', self.static_walls))
-        objects.append(Wall(700, 625, 0, 'gor_wall.jpg', self.static_walls))
+        objects.append(Wall(25, 325, 0, 'vert_wall.jpg', self.walls))
+        objects.append(Wall(25, 975, 0, 'vert_wall.jpg', self.walls))
+        objects.append(Wall(1375, 325, 0, 'vert_wall.jpg', self.walls))
+        objects.append(Wall(1375, 975, 0, 'vert_wall.jpg', self.walls))
+        objects.append(Wall(700, 25, 0, 'gor_wall.jpg', self.walls))
+        objects.append(Wall(700, 1275, 0, 'gor_wall.jpg', self.walls))
+
+        objects.append(BreakableWall(700, 600, 0, 'wall_to_break.jpg', self.breakeable_walls, 3, objects))
+
+        objects.append(Bulding(250, 250, 0, 'house.png', self.buldings))
+        objects.append(Bulding(350, 550, 0, 'zabor_gor.png', self.buldings))
+        objects.append(Bulding(560, 350, 0, 'zabor_vert.png', self.buldings))
+
+        objects.append(Bulding(250, 750, 0, 'house.png', self.buldings))
+        objects.append(Bulding(350, 1050, 0, 'zabor_gor.png', self.buldings))
+        objects.append(Bulding(560, 750, 0, 'zabor_vert.png', self.buldings))
+
+        objects.append(Bulding(1050, 1000, 0, 'house.png', self.buldings))
+        objects.append(Bulding(1050, 650, 0, 'zabor_gor.png', self.buldings))
+        objects.append(Bulding(800, 950, 0, 'zabor_vert.png', self.buldings))
+
+
+        objects.append(Stvol(475, 450, 0, 'stvol1.png', self.trunks))
+        objects.append(Stvol(475, 850, 0, 'stvol1.png', self.trunks))
+        objects.append(Stvol(275, 1100, 0, 'stvol1.png', self.trunks))
+        objects.append(Stvol(1225, 1100, 0, 'stvol2.png', self.trunks))
+
+
         return objects
+
+    def creatre_obj_without_collision(self):
+        for i in range(1, 14):
+            bush = Bush(100*i, 100, 0, 'bush.png', self.bushes)
+        for i in range(1, 14):
+            bush = Bush(100*i, 1200, 0, 'bush.png', self.bushes)
+        for i in range(2, 12):
+            bush = Bush(100, 100*i, 0, 'bush.png', self.bushes)
+        for i in range(2, 12):
+            bush = Bush(1300, 100*i, 0, 'bush.png', self.bushes)
+        for i in range(1, 5):
+            bush = Bush(875, 700 + 100*i, 0, 'bush.png', self.bushes)
+
+        lake = Lake(1050, 450, 0, 'lake.png', self.lakes)
+
+        krona1 = (Krona(487, 341, 0, 'krona1.png', self.crowns))  #12, -109
+        krona1 = (Krona(487, 741, 0, 'krona1.png', self.crowns))
+        krona1 = (Krona(287, 1001, 0, 'krona1.png', self.crowns))
+        krona2 = (Krona(1236, 992, 0, 'krona2.png', self.crowns)) #21, -109
+
 
     def filling(self):
         self.player.fill_obj(self.objects)
@@ -85,6 +140,8 @@ class Controller:
 
     def run_game(self):
         game = True
+        pygame.mixer.music.play(-1)
+
         while game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -94,22 +151,37 @@ class Controller:
             self.display.blit(self.fon_image, (0, 0))
             self.display.blit(self.display_image, (self.delta.x, self.delta.y))
             # drawing
-            self.bullets.draw(self.display)
+
+            self.lakes.draw(self.display)
             self.players.draw(self.display)
+            self.buldings.draw(self.display)
+            self.bushes.draw(self.display)
+            self.trunks.draw(self.display)
+            self.crowns.draw(self.display)
             self.smokes.draw(self.display)
-            self.static_walls.draw(self.display)
+            self.walls.draw(self.display)
+            self.breakeable_walls.draw(self.display)
             self.stans_images.draw(self.display)
             self.explosion_images.draw(self.display)
+            self.bullets.draw(self.display)
+
 
             # отслеживаем смещение главного игрока
             self.tracking_the_offset()
             # moving other
             self.enemy.move_on_vector(self.vector)
             # updating objects
-            self.static_walls.update(self.vector)
-            self.bullets.update(self.enemy, self.vector)
+            self.walls.update(self.vector)
+            self.breakeable_walls.update(self.vector)
+            self.buldings.update(self.vector)
+            self.bullets.update(self.vector)
             self.smokes.update(self.vector)
             self.stans_images.update(self.vector)
+            self.bushes.update(self.vector)
+            self.trunks.update(self.vector)
+            self.crowns.update(self.vector)
+            self.lakes.update(self.vector)
+
             self.explosion_images.update()
 
             pygame.display.update()

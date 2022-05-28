@@ -1,10 +1,11 @@
 import math
 from Object import *
 from IDamage import IDamage
+from Walls import BreakableWall
 
 
 class Bullet(Object, IDamage):
-    def __init__(self, x, y, speed, surf, group, damage, another_objects):
+    def __init__(self, x, y, speed, surf, group, damage, another_objects, enemy):
         super().__init__(x, y, speed, surf, group)
         self.damage = damage
         self.another_objects = another_objects
@@ -18,11 +19,17 @@ class Bullet(Object, IDamage):
         else:
             self.direction = Vector(self.direction.x / length, self.direction.y / length)
 
-    def update(self, target, vector):
+        self.enemy = enemy
+
+    def update(self, vector):
         super().update(vector)
         self.rect.x += self.direction.x * self.speed
         self.rect.y += self.direction.y * self.speed
+
         if pygame.sprite.spritecollideany(self, self.another_objects):
-            if pygame.sprite.collide_rect(self, target):
-                self.do_damage(target)
+            collided = pygame.sprite.spritecollide(self, self.another_objects, False)
+            for obj in collided:
+                if type(obj) == type(self.enemy) or type(obj) == BreakableWall:
+                    self.do_damage(obj)
+
             self.kill()

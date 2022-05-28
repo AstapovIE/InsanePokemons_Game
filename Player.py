@@ -1,7 +1,8 @@
 from Object import *
 from Bullet import Bullet
 from IGetDamage import IGetDamage
-from Sounds import dead_sound, hit_sound
+from IDamage import IDamage
+from Sounds import dead_sound, hit_sound, get_damage_sound
 
 
 def if_lkm_pressed(mouse):
@@ -10,12 +11,18 @@ def if_lkm_pressed(mouse):
     return False
 
 
-class Player(Object, IGetDamage):
-    def __init__(self, x, y, speed, surf, group, enemy, health, setting, obj, my_bullets, spell1, spell2=None,
+class Player(Object, IGetDamage, IDamage):
+    def __init__(self, x, y, speed, surf, group, enemy, health, damage, setting, obj, my_bullets, spell1, spell2=None,
                  spell3=None, stanned=0):
         super().__init__(x, y, speed, surf, group)
         self.enemy = enemy
         self.health = health
+        self.damage = damage
+
+        self.hit_sound = hit_sound
+        self.get_damage_sound = get_damage_sound
+        self.dead_sound = dead_sound
+
         self.setting = setting
         self.obj = obj
         self.my_bullets = my_bullets
@@ -26,7 +33,6 @@ class Player(Object, IGetDamage):
 
     def is_dead(self):
         if self.health <= 0:
-            pygame.mixer.Sound.play(dead_sound)
             self.kill()
             self.del_from_objects()
 
@@ -58,10 +64,10 @@ class Player(Object, IGetDamage):
     def attack(self, LKM):
         if LKM and self.setting.shoot_timer == 0:
             self.setting.shoot_timer = self.setting.shoot_delay
-            pygame.mixer.Sound.play(hit_sound)
+            pygame.mixer.Sound.play(self.hit_sound)
             bullet = Bullet(self.rect.centerx, self.rect.centery, self.setting.bullet_speed,
-                            'boom.png', self.my_bullets, 2,
-                            self.get_another())
+                            'boom.png', self.my_bullets, self.damage,
+                            self.get_another(), self.enemy)
         if self.setting.shoot_timer > 0:
             self.setting.shoot_timer -= 1
 

@@ -1,5 +1,5 @@
 from Object import Object
-from IGetDamage import IGetDamage
+from GetDamage import GetDamage
 from Sounds import break_wall_sound, dead_wall_sound
 
 
@@ -8,10 +8,10 @@ class Wall(Object):
         super().__init__(x, y, speed, surf, group)
 
 
-class BreakableWall(Wall, IGetDamage):
+class BreakableWall(Wall, GetDamage):
     def __init__(self, x, y, speed, surf, group, health, obj):
         super().__init__(x, y, speed, surf, group)
-        self.health = health
+        GetDamage.__init__(self, health)
         self.get_damage_sound = break_wall_sound
         self.dead_sound = dead_wall_sound
         self.obj = obj

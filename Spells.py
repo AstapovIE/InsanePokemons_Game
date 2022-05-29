@@ -1,6 +1,6 @@
 from Point import *
 from Images import *
-from IDamage import IDamage
+from Damage import Damage
 from Sounds import blink_sound, smoke_sound, ult_sound
 
 
@@ -8,6 +8,9 @@ class Spell:
     def __init__(self, timer, cooldown):
         self.timer = timer
         self.cooldown = cooldown
+
+    def update(self, keys, player, key):
+        pass
 
 
 class Blink(Spell):
@@ -53,11 +56,12 @@ ex = ['ex1.png', 'ex2.png', 'ex3.png', 'ex4.png', 'ex5.png', 'ex6.png', 'ex7.png
       'ex9.png', 'ex10.png']
 
 
-class Explosion(Spell, IDamage):
+class Explosion(Spell, Damage):
     def __init__(self, timer, cooldown, range, damage, activate_time, delay_for_im, group):
         super().__init__(timer, cooldown)
+        Damage.__init__(self, damage)
+
         self.range = range
-        self.damage = damage
         self.activate_time = activate_time
         self.delay_for_im = delay_for_im
         self.group = group

@@ -1,13 +1,14 @@
 import math
 from Object import *
-from IDamage import IDamage
+from Damage import Damage
 from Walls import BreakableWall
 
 
-class Bullet(Object, IDamage):
+class Bullet(Object, Damage):
     def __init__(self, x, y, speed, surf, group, damage, another_objects, enemy):
         super().__init__(x, y, speed, surf, group)
-        self.damage = damage
+        Damage.__init__(self, damage)
+
         self.another_objects = another_objects
         '''calculate_direction'''
         mx, my = pygame.mouse.get_pos()

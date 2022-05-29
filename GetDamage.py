@@ -1,10 +1,9 @@
-import  pygame
+import pygame
 
 
-class IGetDamage:
-    def __init__(self, health, sound):
+class GetDamage:
+    def __init__(self, health):
         self.health = health
-        self.sound = sound
 
     def get_damage(self, damage):
         self.health -= damage

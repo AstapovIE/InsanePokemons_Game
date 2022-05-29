@@ -1,7 +1,7 @@
 from Object import *
 from Bullet import Bullet
-from IGetDamage import IGetDamage
-from IDamage import IDamage
+from GetDamage import GetDamage
+from Damage import Damage
 from Sounds import dead_sound, hit_sound, get_damage_sound
 
 
@@ -11,13 +11,14 @@ def if_lkm_pressed(mouse):
     return False
 
 
-class Player(Object, IGetDamage, IDamage):
-    def __init__(self, x, y, speed, surf, group, enemy, health, damage, setting, obj, my_bullets, spell1, spell2=None,
-                 spell3=None, stanned=0):
-        super().__init__(x, y, speed, surf, group)
+class Player(Object, GetDamage, Damage):
+    def __init__(self, x, y, speed, surf, group, enemy, health, damage, setting, obj, my_bullets, spell1, spell2,
+                 spell3, stanned=0):
+        Object.__init__(self, x, y, speed, surf, group)
+        GetDamage.__init__(self, health)
+        Damage.__init__(self, damage)
+
         self.enemy = enemy
-        self.health = health
-        self.damage = damage
 
         self.hit_sound = hit_sound
         self.get_damage_sound = get_damage_sound

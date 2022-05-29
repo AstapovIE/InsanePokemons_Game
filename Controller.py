@@ -1,6 +1,6 @@
 from Player import *
 from Walls import *
-from Bulding import Bulding
+from Building import Building
 from Settings import *
 from Spells import *
 from Nature import *
@@ -21,7 +21,7 @@ class Controller:
         self.explosion_images = pygame.sprite.Group()
         self.bushes = pygame.sprite.Group()
         self.lakes = pygame.sprite.Group()
-        self.buldings = pygame.sprite.Group()
+        self.buildings = pygame.sprite.Group()
         self.trunks = pygame.sprite.Group()
         self.crowns = pygame.sprite.Group()
 
@@ -57,7 +57,7 @@ class Controller:
                       Explosion(0, 600, 150, 10, 100, 20, self.explosion_images))
 
     def init_enemy(self):
-        return Player(1150, 850,
+        return Player(1150, 825,
                       5,  # speed
                       'bulbazavr.png',
                       self.players,
@@ -82,17 +82,19 @@ class Controller:
 
         objects.append(BreakableWall(700, 600, 0, 'wall_to_break.jpg', self.breakeable_walls, 3, objects))
 
-        objects.append(Bulding(250, 250, 0, 'house.png', self.buldings))
-        objects.append(Bulding(350, 550, 0, 'zabor_gor.png', self.buldings))
-        objects.append(Bulding(560, 350, 0, 'zabor_vert.png', self.buldings))
+        objects.append(Building(250, 250, 0, 'house.png', self.buildings))
+        objects.append(Building(350, 550, 0, 'zabor_gor.png', self.buildings))
+        objects.append(Building(560, 350, 0, 'zabor_vert.png', self.buildings))
 
-        objects.append(Bulding(250, 750, 0, 'house.png', self.buldings))
-        objects.append(Bulding(350, 1050, 0, 'zabor_gor.png', self.buldings))
-        objects.append(Bulding(560, 750, 0, 'zabor_vert.png', self.buldings))
+        objects.append(Building(250, 750, 0, 'house.png', self.buildings))
+        objects.append(Building(350, 1075, 0, 'zabor_gor.png', self.buildings))
+        objects.append(Building(560, 750, 0, 'zabor_vert.png', self.buildings))
 
-        objects.append(Bulding(1050, 1000, 0, 'house.png', self.buldings))
-        objects.append(Bulding(1050, 650, 0, 'zabor_gor.png', self.buldings))
-        objects.append(Bulding(800, 950, 0, 'zabor_vert.png', self.buldings))
+        objects.append(Building(1050, 1000, 0, 'house.png', self.buildings))
+        objects.append(Building(1050, 600, 0, 'zabor_gor.png', self.buildings))
+        objects.append(Building(800, 950, 0, 'zabor_vert.png', self.buildings))
+
+        objects.append((Building(1050, 200, 0, 'pokevillage.png', self.buildings)))
 
 
         objects.append(Stvol(475, 450, 0, 'stvol1.png', self.trunks))
@@ -115,7 +117,8 @@ class Controller:
         for i in range(1, 5):
             bush = Bush(875, 700 + 100*i, 0, 'bush.png', self.bushes)
 
-        lake = Lake(1050, 450, 0, 'lake.png', self.lakes)
+        lake = Lake(1050, 425, 0, 'lake.png', self.lakes)
+        road = Building(850, 650, 0, 'road.png', self.buildings)
 
         krona1 = (Krona(487, 341, 0, 'krona1.png', self.crowns))  #12, -109
         krona1 = (Krona(487, 741, 0, 'krona1.png', self.crowns))
@@ -140,7 +143,7 @@ class Controller:
 
     def run_game(self):
         game = True
-        pygame.mixer.music.play(-1)
+        # pygame.mixer.music.play(-1)
 
         while game:
             for event in pygame.event.get():
@@ -153,8 +156,9 @@ class Controller:
             # drawing
 
             self.lakes.draw(self.display)
+            self.buildings.draw(self.display)
             self.players.draw(self.display)
-            self.buldings.draw(self.display)
+
             self.bushes.draw(self.display)
             self.trunks.draw(self.display)
             self.crowns.draw(self.display)
@@ -173,7 +177,7 @@ class Controller:
             # updating objects
             self.walls.update(self.vector)
             self.breakeable_walls.update(self.vector)
-            self.buldings.update(self.vector)
+            self.buildings.update(self.vector)
             self.bullets.update(self.vector)
             self.smokes.update(self.vector)
             self.stans_images.update(self.vector)

@@ -37,7 +37,8 @@ class Controller:
         self.objects = self.init_objects()
 
         self.player = self.init_player()
-        self.enemy = self.init_enemy()
+        self.enemy1 = self.init_enemy1()
+        self.enemy2 = self.init_enemy2()
         self.filling()
         self.creatre_obj_without_collision()
 
@@ -56,7 +57,7 @@ class Controller:
                       Stan(0, 300, 400, 40, 300, self.stans_images, None),
                       Explosion(0, 600, 150, 10, 100, 20, self.explosion_images))
 
-    def init_enemy(self):
+    def init_enemy1(self):
         return Player(1150, 825,
                       5,  # speed
                       'bulbazavr.png',
@@ -65,6 +66,21 @@ class Controller:
                       15,  # health
                       2,  # damage
                       Setting2(),
+                      self.objects,
+                      self.bullets,
+                      MakeSmoke(0, 600, 300, self.smokes),
+                      Stan(0, 600, 400, 40, 300, self.stans_images, None),
+                      Explosion(0, 600, 150, 10, 100, 20, self.explosion_images))
+
+    def init_enemy2(self):
+        return Player(1150, 425,
+                      5,  # speed
+                      'bulbazavr.png',
+                      self.players,
+                      None,  # enemy
+                      15,  # health
+                      2,  # damage
+                      Setting3(),
                       self.objects,
                       self.bullets,
                       MakeSmoke(0, 600, 300, self.smokes),
@@ -81,6 +97,8 @@ class Controller:
         objects.append(Wall(700, 1275, 0, 'gor_wall.jpg', self.walls))
 
         objects.append(BreakableWall(700, 600, 0, 'wall_to_break.jpg', self.breakeable_walls, 3, objects))
+        objects.append(BreakableWall(550, 1005, 0, 'kalitka.png', self.breakeable_walls, 3, objects))
+        objects.append(BreakableWall(800, 690, 0, 'kalitka.png', self.breakeable_walls, 3, objects))
 
         objects.append(Building(250, 250, 0, 'house.png', self.buildings))
         objects.append(Building(350, 550, 0, 'zabor_gor.png', self.buildings))
@@ -128,11 +146,14 @@ class Controller:
 
     def filling(self):
         self.player.fill_obj(self.objects)
-        self.enemy.fill_obj(self.objects)
-        self.player.fill_enemy(self.enemy)
-        self.enemy.fill_enemy(self.player)
+        self.enemy1.fill_obj(self.objects)
+        self.enemy2.fill_obj(self.objects)
+        self.player.fill_enemy(self.enemy1)
+        self.enemy1.fill_enemy(self.player)
+        self.enemy2.fill_enemy(self.player)
         self.objects.append(self.player)
-        self.objects.append(self.enemy)
+        self.objects.append(self.enemy1)
+        self.objects.append(self.enemy2)
 
     def tracking_the_offset(self):
         self.vector = Vector(self.player.rect.x, self.player.rect.y)
@@ -173,7 +194,9 @@ class Controller:
             # отслеживаем смещение главного игрока
             self.tracking_the_offset()
             # moving other
-            self.enemy.move_on_vector(self.vector)
+            self.enemy1.move_on_vector(self.vector)
+            self.enemy2.move_on_vector(self.vector)
+
             # updating objects
             self.walls.update(self.vector)
             self.breakeable_walls.update(self.vector)

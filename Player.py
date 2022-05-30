@@ -12,13 +12,13 @@ def if_lkm_pressed(mouse):
 
 
 class Player(Object, GetDamage, Damage):
-    def __init__(self, x, y, speed, surf, group, enemy, health, damage, setting, obj, my_bullets, spell1, spell2,
+    def __init__(self, x, y, speed, surf, group, enemies, health, damage, setting, obj, my_bullets, spell1, spell2,
                  spell3, stanned=0):
         Object.__init__(self, x, y, speed, surf, group)
         GetDamage.__init__(self, health)
         Damage.__init__(self, damage)
 
-        self.enemy = enemy
+        self.enemies = []
 
         self.hit_sound = hit_sound
         self.get_damage_sound = get_damage_sound
@@ -47,7 +47,7 @@ class Player(Object, GetDamage, Damage):
         self.obj = objects
 
     def fill_enemy(self, enemy):
-        self.enemy = enemy
+        self.enemies.append(enemy)
 
     def get_another(self):  # возвращает список обьектов, в котором нет самого себя
         re_objects = []
@@ -68,7 +68,7 @@ class Player(Object, GetDamage, Damage):
             pygame.mixer.Sound.play(self.hit_sound)
             bullet = Bullet(self.rect.centerx, self.rect.centery, self.setting.bullet_speed,
                             'boom.png', self.my_bullets, self.damage,
-                            self.get_another(), self.enemy)
+                            self.get_another(), self.enemies[0])
         if self.setting.shoot_timer > 0:
             self.setting.shoot_timer -= 1
 
@@ -80,8 +80,10 @@ class Player(Object, GetDamage, Damage):
             LKM = if_lkm_pressed(pygame.mouse.get_pressed())
 
             self.spell1.update(keys, self, self.setting.spell1)
-            self.spell2.update(keys, self, self.setting.spell2, self.enemy)
-            self.spell3.update(keys, self, self.setting.spell3, self.enemy)
+            for i in range(len(self.enemies)):
+                self.spell2.update(keys, self, self.setting.spell2, self.enemies[i])
+            for j in range(len(self.enemies)):
+                self.spell3.update(keys, self, self.setting.spell3, self.enemies[j])
             self.attack(LKM)
 
             if keys[self.setting.up]:

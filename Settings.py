@@ -30,6 +30,19 @@ class Setting2(Settings):
         self.shoot_timer = 0
         self.shoot_delay = 30
         self.bullet_speed = 10
+        self.spell1 = pygame.K_7  # smoke
+        self.spell2 = pygame.K_8  # stan
+        self.spell3 = pygame.K_9  # ult
+
+class Setting3(Settings):
+    def __init__(self):
+        self.up = pygame.K_h
+        self.down = pygame.K_n
+        self.left = pygame.K_b
+        self.right = pygame.K_m
+        self.shoot_timer = 0
+        self.shoot_delay = 30
+        self.bullet_speed = 10
         self.spell1 = pygame.K_i  # smoke
         self.spell2 = pygame.K_o  # stan
         self.spell3 = pygame.K_p  # ult

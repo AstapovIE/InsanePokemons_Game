@@ -37,8 +37,7 @@ class Controller:
         self.objects = self.init_objects()
 
         self.player = self.init_player()
-        self.enemy1 = self.init_enemy1()
-        self.enemy2 = self.init_enemy2()
+        self.enemy = self.init_enemy()
         self.filling()
         self.creatre_obj_without_collision()
 
@@ -57,7 +56,7 @@ class Controller:
                       Stan(0, 300, 400, 40, 300, self.stans_images, None),
                       Explosion(0, 600, 150, 10, 100, 20, self.explosion_images))
 
-    def init_enemy1(self):
+    def init_enemy(self):
         return Player(1150, 825,
                       5,  # speed
                       'bulbazavr.png',
@@ -72,20 +71,6 @@ class Controller:
                       Stan(0, 600, 400, 40, 300, self.stans_images, None),
                       Explosion(0, 600, 150, 10, 100, 20, self.explosion_images))
 
-    def init_enemy2(self):
-        return Player(1150, 425,
-                      5,  # speed
-                      'bulbazavr.png',
-                      self.players,
-                      None,  # enemy
-                      15,  # health
-                      2,  # damage
-                      Setting3(),
-                      self.objects,
-                      self.bullets,
-                      MakeSmoke(0, 600, 300, self.smokes),
-                      Stan(0, 600, 400, 40, 300, self.stans_images, None),
-                      Explosion(0, 600, 150, 10, 100, 20, self.explosion_images))
 
     def init_objects(self):
         objects = []
@@ -146,14 +131,11 @@ class Controller:
 
     def filling(self):
         self.player.fill_obj(self.objects)
-        self.enemy1.fill_obj(self.objects)
-        self.enemy2.fill_obj(self.objects)
-        self.player.fill_enemy(self.enemy1)
-        self.enemy1.fill_enemy(self.player)
-        self.enemy2.fill_enemy(self.player)
+        self.enemy.fill_obj(self.objects)
+        self.player.fill_enemy(self.enemy)
+        self.enemy.fill_enemy(self.player)
         self.objects.append(self.player)
-        self.objects.append(self.enemy1)
-        self.objects.append(self.enemy2)
+        self.objects.append(self.enemy)
 
     def tracking_the_offset(self):
         self.vector = Vector(self.player.rect.x, self.player.rect.y)
@@ -164,7 +146,7 @@ class Controller:
 
     def run_game(self):
         game = True
-        # pygame.mixer.music.play(-1)
+        pygame.mixer.music.play(-1)
 
         while game:
             for event in pygame.event.get():
@@ -174,12 +156,11 @@ class Controller:
 
             self.display.blit(self.fon_image, (0, 0))
             self.display.blit(self.display_image, (self.delta.x, self.delta.y))
-            # drawing
 
+            # drawing
             self.lakes.draw(self.display)
             self.buildings.draw(self.display)
             self.players.draw(self.display)
-
             self.bushes.draw(self.display)
             self.trunks.draw(self.display)
             self.crowns.draw(self.display)
@@ -193,9 +174,9 @@ class Controller:
 
             # отслеживаем смещение главного игрока
             self.tracking_the_offset()
+
             # moving other
-            self.enemy1.move_on_vector(self.vector)
-            self.enemy2.move_on_vector(self.vector)
+            self.enemy.move_on_vector(self.vector)
 
             # updating objects
             self.walls.update(self.vector)

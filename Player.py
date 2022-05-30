@@ -1,10 +1,8 @@
 from Object import *
-from IDamage import IDamage
 from Bullet import Bullet
-
-pygame.init()
-hit_sound = pygame.mixer.Sound('sounds/HitSound.mp3')
-pygame.mixer.Sound.set_volume(hit_sound, 0.05)
+from GetDamage import GetDamage
+from Damage import Damage
+from Sounds import dead_sound, hit_sound, get_damage_sound
 
 
 def if_lkm_pressed(mouse):
@@ -13,16 +11,25 @@ def if_lkm_pressed(mouse):
     return False
 
 
-class Player(Object):
-    def __init__(self, x, y, speed, surf, group, enemy, health, setting, obj, my_bullets, spell1, spell2=None, stanned=0):
-        super().__init__(x, y, speed, surf, group)
+class Player(Object, GetDamage, Damage):
+    def __init__(self, x, y, speed, surf, group, enemy, health, damage, setting, obj, my_bullets, spell1, spell2,
+                 spell3, stanned=0):
+        Object.__init__(self, x, y, speed, surf, group)
+        GetDamage.__init__(self, health)
+        Damage.__init__(self, damage)
+
         self.enemy = enemy
-        self.health = health
+        self.hit_sound = hit_sound
+        self.get_damage_sound = get_damage_sound
+        self.dead_sound = dead_sound
+
         self.setting = setting
         self.obj = obj
         self.my_bullets = my_bullets
         self.spell1 = spell1
         self.spell2 = spell2
+        self.spell3 = spell3
+
         self.stanned = stanned
 
     def is_dead(self):
@@ -58,9 +65,11 @@ class Player(Object):
     def attack(self, LKM):
         if LKM and self.setting.shoot_timer == 0:
             self.setting.shoot_timer = self.setting.shoot_delay
-            pygame.mixer.Sound.play(hit_sound)
+            pygame.mixer.Sound.play(self.hit_sound)
             bullet = Bullet(self.rect.centerx, self.rect.centery, self.setting.bullet_speed,
-                            pygame.image.load('images/boom.png').convert_alpha(), self.my_bullets, 2, self.get_another())
+                            'boom.png', self.my_bullets, self.damage,
+                            self.get_another(), self.enemy)
+
         if self.setting.shoot_timer > 0:
             self.setting.shoot_timer -= 1
 
@@ -73,6 +82,8 @@ class Player(Object):
 
             self.spell1.update(keys, self, self.setting.spell1)
             self.spell2.update(keys, self, self.setting.spell2, self.enemy)
+            self.spell3.update(keys, self, self.setting.spell3, self.enemy)
+
             self.attack(LKM)
 
             if keys[self.setting.up]:
@@ -97,16 +108,3 @@ class Player(Object):
 
     def move_on_vector(self, vector):
         self += vector
-
-        '''xy = [0, 0]
-                if keys[self.setting.up]:
-                    xy[1] -= self.speed
-                if keys[self.setting.down]:
-                    xy[1] += self.speed
-                if keys[self.setting.left]:
-                    xy[0] -= self.speed
-                if keys[self.setting.right]:
-                    xy[0] += self.speed
-                if not pygame.sprite.spritecollideany(self, self.get_another()):
-                    self.rect.x += xy[0]
-                    self.rect.y += xy[1]'''

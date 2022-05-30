@@ -30,4 +30,3 @@ class BreakableWall(Wall, GetDamage):
             if self == self.obj[i]:
                 self.obj.pop(i)
                 break
-
